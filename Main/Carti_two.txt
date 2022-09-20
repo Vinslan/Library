@@ -1,0 +1,10 @@
+1 a a 1 En 35 1 a
+3 d d 3 En 4 3 d
+2 a a 1 En 35 1 f
+4 d d 3 En 4 3 j
+6 d d 3 En 4 3 v
+1 a a 1 Rum 35 1 a
+3 d d 3 Rum 4 3 d
+2 a a 1 Rum 35 1 f
+4 d d 3 En 4 3 j
+6 d d 3 En 4 3 v

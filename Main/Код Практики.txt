@@ -1,0 +1,322 @@
+#include <iostream>
+#include <fstream>
+using namespace std; 
+	struct RegBook {
+	int CodCarte;
+	string Num_Prenum_Autor;
+	string Titlu;
+	int AnEd;
+	string Limba;
+	float Pret;
+	int Npag;
+	string Tema;
+}Books[50];
+int NumBooks;
+//Регестрация книги 
+void ReadFile()
+{
+	ifstream File;
+	int i = 0;
+	File.open("C:\\Users\\User\\Desktop\\Практика\\Программирование_два\\Carti_two.txt");
+	while (!File.eof())
+	{
+		File >> Books[i].CodCarte >> Books[i].Num_Prenum_Autor >> Books[i].Titlu >> Books[i].AnEd >> Books[i].Limba >> Books[i].Pret >> Books[i].Npag >> Books[i].Tema;
+		i++;
+	}
+	NumBooks = i - 1;
+	File.close();
+}
+void CoutBook()
+{
+	for (int i = 0; i < NumBooks; i++)
+	{
+		cout << Books[i].CodCarte << " " << Books[i].Num_Prenum_Autor << " " << Books[i].Titlu << " " << Books[i].AnEd << " " << Books[i].Limba << " " << Books[i].Pret << " " << Books[i].Npag << " " << Books[i].Tema << endl;
+	}
+}
+void AppendBook()
+{
+	fstream File;
+	File.open("C:\\Users\\User\\Desktop\\Практика\\Программирование_два\\Carti_two.txt", ios::app);
+	NumBooks++;
+
+	cout << "Введите код книги:";
+	cin >> Books[NumBooks - 1].CodCarte;
+	cout << "Введите Имя_Фамилию_Автра через нижю черту:";
+	cin >> Books[NumBooks - 1].Num_Prenum_Autor;
+	cout << "Введите Название книги:";
+	cin >> Books[NumBooks - 1].Titlu;
+	cout << "Введите год выпуска книги:";
+	cin >> Books[NumBooks - 1].AnEd;
+	cout << "Введите Язык книги (Rum,En,Ru):";
+	cin >> Books[NumBooks - 1].Limba;
+	cout << "Введите цену книги:";
+	cin >> Books[NumBooks - 1].Pret;
+	cout << "Введите количество страниц книги:";
+	cin >> Books[NumBooks - 1].Npag;
+	cout << "Введите тему книги:";
+	cin >> Books[NumBooks - 1].Tema;
+	File << Books[NumBooks - 1].CodCarte << " " << Books[NumBooks - 1].Num_Prenum_Autor << " " << Books[NumBooks - 1].Titlu << " " << Books[NumBooks - 1].AnEd << " " << Books[NumBooks - 1].Limba << " " << Books[NumBooks - 1].Pret << " " << Books[NumBooks - 1].Npag << " " << Books[NumBooks - 1].Tema << endl;
+
+	File.close();
+}
+
+//Удаление книги с указаным жанром 
+void refile()
+{
+	ofstream file("C:\\Users\\User\\Desktop\\Практика\\Программирование_два\\Carti_two.txt");
+	for (int i = 0; i < NumBooks; i++)
+		file << Books[i].CodCarte << " " << Books[i].Num_Prenum_Autor << " " << Books[i].Titlu << " " << Books[i].AnEd << " " << Books[i].Limba << " " << Books[i].Pret << " " << Books[i].Npag << " " << Books[i].Tema << endl;
+	file.close();
+}
+int findpos(string str)
+{
+	for (int i = 0; i < NumBooks; i++)
+		if (Books[i].Tema == str) return i;
+	return -1;
+}
+void deletebook()
+{
+	string temp;
+	cout << "Введите жанр для удаления :";
+	cin >> temp;
+	int pos = findpos(temp);
+	if (pos == -1)cout << "Жанр не найден" << endl;
+	else
+	{
+		for (int i = pos; i < NumBooks - 1; i++)
+			Books[i] = Books[i + 1];
+		NumBooks--;
+		refile();
+	}
+}
+// Книга по году 
+void ageg()
+{
+	
+	int age;
+	
+	cout << "Сортировка по году. \n";
+	cout << "Введите нужный вам год : ";
+	cin >> age;
+	for (int i = 0; i <= NumBooks; i++)
+	{
+		if (age == Books[i].AnEd)
+		{
+			cout << Books[i].CodCarte << " " << Books[i].Num_Prenum_Autor << " " << Books[i].Titlu << " " << Books[i].AnEd << " " << Books[i].Limba << " " << Books[i].Pret << " " << Books[i].Npag << " " << Books[i].Tema << endl;
+		}
+
+	}
+	
+}
+//Книги на румынском и сортировка 
+void Rumm()
+{
+	cout << "Введите название книги : ";
+	string Name;
+	cin >> Name;
+	for (int i = 0; i <= NumBooks; i++)
+	{
+		if (Name == Books[i].Titlu)
+		{
+			if (Books[i].Limba == "Rum")
+			{
+				fstream FileRum;
+				FileRum.open("C:\\Users\\User\\Desktop\\Практика\\Программирование_два\\Romana.txt", ios::app);
+				FileRum << Books[i].CodCarte << " " << Books[i].Num_Prenum_Autor << " " << Books[i].Titlu << " " << Books[i].AnEd << " " << Books[i].Limba << " " << Books[i].Pret << " " << Books[i].Npag << " " << Books[i].Tema << endl;
+				FileRum.close();
+			}
+		}
+	}
+
+
+}
+void Sortirovka()
+{
+	string temp;
+	for (int i = 0; i < NumBooks; i++)
+		for (int j = i + 1; j < NumBooks; j++)
+			if (Books[i].Num_Prenum_Autor < Books[j].Num_Prenum_Autor)
+			{
+				temp = Books[i].Num_Prenum_Autor;
+				Books[i] = Books[j];
+				Books[j].Num_Prenum_Autor = temp;
+			}
+}
+//Максимальное количество страниц 
+void Npag()
+{
+	int max = Books[0].Npag;
+	for (int i = 1; i < NumBooks; i++)
+		if (Books[i].Npag > max) max = Books[i].Npag;
+	cout <<"Максимальное количество страниц - "<<max << endl;
+}
+//Средняя ценя книги на иностранном языке 
+void sredEn()
+{
+	int DopVariable = 0;
+	int d = 0;
+	float sredPret;
+	for (int i = 0; i < NumBooks; i++)
+	{
+		if (Books[i].Limba == "En")
+		{
+			if (Books[i].Pret > 0)
+			{
+				DopVariable = DopVariable + Books[i].Pret;
+				d++;
+
+			}
+		}
+	}
+	sredPret = DopVariable / d;
+	cout << "Средняя цена книги на иностранном языке : " << sredPret << endl;
+
+}
+//Дополнительное задание 
+int dop()
+{
+	int h;
+	int dopp;
+	cout << "Введите ! числа - !";
+	cin >>h;
+	dopp = 1;
+	for (int i = 1; i <= h; i++) 
+	{
+		dopp = dopp * i;
+	}
+	cout << "\n!" << h << "=" << dopp;
+	return 0;
+}
+//Повтор 
+int povtor(int povtoren)
+{
+	cout << "\nХотите перейти в меню ?\n";
+	cout << "1.Да\n";
+	cout << "2.Нет\n";
+		cin >> povtoren;
+		return 0; 
+}
+
+
+
+
+
+
+
+
+int main()
+{
+	setlocale(LC_ALL, "ru");
+	int n; 
+	int povtoren=0 ; 
+	while (povtoren != 2  ) 
+	{
+
+	
+		cout << "Библиотека.\n";
+		cout << "1.Регистрация книги.\n";
+		cout << "2.Книги в библиотеке.\n";
+		cout << "3.Удаление книг по указоному жанру.\n"; 
+		cout << "4.Поиск книги по году.\n";
+		cout << "5.Перенос книги на румынском.\n";
+		cout << "6.Максимальное количество страниц.\n";
+		cout << "7.Средняя ценя книги на иностранном языке.\n";
+		cout << "8.Дополнительное задание.\n";
+		cout << "9.Выход.\n";
+		cout << "Пунтк : ";
+		cin >> n;
+		cout << endl; 
+		system("cls");
+	
+	
+		switch (n)
+		{
+		case 1: 
+			AppendBook();
+			povtor(povtoren);
+			cout << "\nХотите перейти в меню ?\n";
+			cout << "1.Да\n";
+			cout << "2.Нет\n";
+			cin >> povtoren;
+			system("cls");
+			break; 
+		case 2: 
+			ReadFile();
+			CoutBook();
+			//povtor(povtoren);
+			cout << "\nХотите перейти в меню ?\n";
+			cout << "1.Да\n";
+			cout << "2.Нет\n";
+			cin >> povtoren;
+			system("cls");
+			break;
+		case 3: 
+			ReadFile();
+			CoutBook();
+			cout << endl;
+			deletebook();
+			cout << endl;
+			system("cls");
+			ReadFile();
+			CoutBook();
+			cout << "\nХотите перейти в меню ?\n";
+			cout << "1.Да\n";
+			cout << "2.Нет\n";
+			cin >> povtoren;
+			system("cls");
+			break;
+		case 4 :
+			ReadFile();
+			ageg();
+			cout << "\nХотите перейти в меню ?\n";
+			cout << "1.Да\n";
+			cout << "2.Нет\n";
+			cin >> povtoren;
+			system("cls");
+			break;
+		case 5: ReadFile();
+			CoutBook();
+			Sortirovka();
+			Rumm();
+			cout << "\nХотите перейти в меню ?\n";
+			cout << "1.Да\n";
+			cout << "2.Нет\n";
+			cin >> povtoren;
+			system("cls");
+			break;
+		case 6:
+			ReadFile();
+			Npag();
+			cout << "\nХотите перейти в меню ?\n";
+			cout << "1.Да\n";
+			cout << "2.Нет\n";
+			cin >> povtoren;
+			system("cls");
+			break;
+		case 7:
+			ReadFile();
+			sredEn();
+			cout << "\nХотите перейти в меню ?\n";
+			cout << "1.Да\n";
+			cout << "2.Нет\n";
+			cin >> povtoren;
+			system("cls");
+			break;
+		case 8:
+			dop();
+			cout << "\nХотите перейти в меню ?\n";
+			cout << "1.Да\n";
+			cout << "2.Нет\n";
+			cin >> povtoren;
+			system("cls");
+			break; 
+		
+		case 9:cout << "\nТочно хотите выйти  ?\n";
+			cout << "1.Нет\n";
+			cout << "2.Да\n";
+			cin >> povtoren;
+			break; 
+		}
+	}
+	
+}

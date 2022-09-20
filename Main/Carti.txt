@@ -1,0 +1,18 @@
+1 a a 1 a 1 1 a
+2 s s 2 s 2 2 s
+3 d d 3 d 3 3 d
+4 f f 4 f 4 4 f
+5 g g 5 g 5 5 g
+7 j j 7 j 7 7 j
+8 k k 8 k 8 8 k
+9 l l 9 l 9 9 l
+10 z z 10 z 10 10 z
+11 q q 11 q 11 11 q
+12 w w 12 w 12 12 w
+18 l l 18 Rum 18 18 l
+123 asdas adsad 32432 En 324 234 fdg
+2134 dads adsad 324 En 345 345 l
+19 b b 19 b 19 19 b
+19 b b 19 b 19 19 b
+123 adas adsad 123 En 324 456 asdsa
+54654 dsfdsf fsdf 453 asdasd 322324 0 
